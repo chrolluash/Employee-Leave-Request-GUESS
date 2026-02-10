@@ -30,7 +30,7 @@
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <div>
-                <h2 style="margin: 0;">All Employees ({{ $employees->total() }})</h2>
+                <h2 style="margin: 0;">Employees List ({{ $employees->total() }})</h2>
                 @if(request()->hasAny(['search', 'department', 'sort']))
                     <span style="font-size: 13px; color: var(--text-secondary); margin-top: 5px; display: block;">
                         Filtered Results
