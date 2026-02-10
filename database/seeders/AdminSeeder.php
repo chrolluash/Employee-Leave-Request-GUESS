@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
         // Create admin user
         User::create([
             'name' => 'Admin User',
-            'email' => 'admin@example.com',
+            'email' => 'admin@guess.com',
             'password' => Hash::make('password123'),
             'role' => 'admin',
             'department' => 'Management',
@@ -23,7 +23,7 @@ class AdminSeeder extends Seeder
         // Create sample employee
         User::create([
             'name' => 'John Doe',
-            'email' => 'john@example.com',
+            'email' => 'johndoe@guess.com',
             'password' => Hash::make('password123'),
             'role' => 'employee',
             'department' => 'IT',
@@ -33,7 +33,7 @@ class AdminSeeder extends Seeder
         // Create another sample employee
         User::create([
             'name' => 'Jane Smith',
-            'email' => 'jane@example.com',
+            'email' => 'janesmith@guess.com',
             'password' => Hash::make('password123'),
             'role' => 'employee',
             'department' => 'HR',
