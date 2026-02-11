@@ -20,6 +20,16 @@ class DatabaseSeeder extends Seeder
             'position' => 'System Administrator',
         ]);
 
+        // Create manager user
+        User::create([
+            'name' => 'Manager User',
+            'email' => 'manager@guess.com',
+            'password' => Hash::make('password123'),
+            'role' => 'manager',
+            'department' => 'Management',
+            'position' => 'Department Manager',
+        ]);
+
         // Create sample employee
         User::create([
             'name' => 'John Doe',

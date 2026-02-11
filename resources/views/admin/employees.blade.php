@@ -4,8 +4,9 @@
 
 @section('content')
 <div class="page-header">
-    <h1>Employees</h1>
+    <h1>Employees List</h1>
     <div style="display: flex; gap: 10px;">
+        @if(Auth::user()->isAdmin())
         <a href="{{ route('admin.employees.create') }}" class="btn btn-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
                 <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -13,8 +14,9 @@
                 <line x1="20" y1="8" x2="20" y2="14"></line>
                 <line x1="23" y1="11" x2="17" y2="11"></line>
             </svg>
-            Add New Employee
+            Add New Account
         </a>
+        @endif
         <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -30,7 +32,7 @@
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <div>
-                <h2 style="margin: 0;">Employees List ({{ $employees->total() }})</h2>
+                <h2 style="margin: 0;">All Employees ({{ $employees->total() }})</h2>
                 @if(request()->hasAny(['search', 'department', 'sort']))
                     <span style="font-size: 13px; color: var(--text-secondary); margin-top: 5px; display: block;">
                         Filtered Results
@@ -45,7 +47,7 @@
                         <input type="text" 
                                name="search" 
                                value="{{ request('search') }}" 
-                               placeholder="Search employees..."
+                               placeholder="Search accounts..."
                                style="padding: 10px 40px 10px 15px; border: 2px solid var(--border-color); border-radius: 6px; font-size: 14px; width: 280px;">
                         <button type="submit" style="position: absolute; right: 5px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; padding: 5px;">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -84,6 +86,7 @@
                         <input type="hidden" name="search" value="{{ request('search') }}">
                     @endif
                     
+                    @if(Auth::user()->isAdmin())
                     <div class="form-group">
                         <label for="department">Department</label>
                         <select id="department" name="department">
@@ -93,6 +96,7 @@
                             <option value="Engineering" {{ request('department') == 'Engineering' ? 'selected' : '' }}>Engineering</option>
                             <option value="HR" {{ request('department') == 'HR' ? 'selected' : '' }}>HR</option>
                             <option value="IT" {{ request('department') == 'IT' ? 'selected' : '' }}>IT</option>
+                            <option value="Management" {{ request('department') == 'Management' ? 'selected' : '' }}>Management</option>
                             <option value="Merchandising" {{ request('department') == 'Merchandising' ? 'selected' : '' }}>Merchandising</option>
                             <option value="Planning" {{ request('department') == 'Planning' ? 'selected' : '' }}>Planning</option>
                             <option value="Purchasing" {{ request('department') == 'Purchasing' ? 'selected' : '' }}>Purchasing</option>
@@ -101,6 +105,7 @@
                             <option value="Visual" {{ request('department') == 'Visual' ? 'selected' : '' }}>Visual</option>
                         </select>
                     </div>
+                    @endif
 
                     <div class="form-group">
                         <label for="sort">Sort By</label>
@@ -142,7 +147,10 @@
                         <tr>
                             <th>Name</th>
                             <th>Email</th>
+                            <th>Role</th>
+                            @if(Auth::user()->isAdmin())
                             <th>Department</th>
+                            @endif
                             <th>Position</th>
                             <th>Total Requests</th>
                             <th>Joined</th>
@@ -154,7 +162,20 @@
                             <tr>
                                 <td><strong>{{ $employee->name }}</strong></td>
                                 <td>{{ $employee->email }}</td>
+                                <td>
+                                    @if($employee->role === 'manager')
+                                        <span class="badge badge-warning" style="background-color: #f59e0b; color: white;">
+                                            👔 Manager
+                                        </span>
+                                    @else
+                                        <span class="badge badge-info">
+                                            👤 Employee
+                                        </span>
+                                    @endif
+                                </td>
+                                @if(Auth::user()->isAdmin())
                                 <td>{{ $employee->department }}</td>
+                                @endif
                                 <td>{{ $employee->position }}</td>
                                 <td>
                                     <span class="badge badge-info">
@@ -163,6 +184,7 @@
                                 </td>
                                 <td>{{ $employee->created_at->format('M d, Y') }}</td>
                                 <td class="actions">
+                                    @if(Auth::user()->isAdmin())
                                     <a href="{{ route('admin.employees.edit', $employee) }}" 
                                        class="btn btn-sm btn-info">Edit</a>
                                     
@@ -174,6 +196,9 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">Delete</button>
                                     </form>
+                                    @else
+                                    <span class="text-muted" style="font-size: 13px; color: #94a3b8;">View only</span>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -188,15 +213,17 @@
         @else
             <div class="empty-state">
                 @if(request()->hasAny(['search', 'department']))
-                    <p>🔍 No employees found matching your search criteria.</p>
+                    <p>🔍 No accounts found matching your search criteria.</p>
                     <a href="{{ route('admin.employees') }}" class="btn btn-secondary">
                         Clear Filters
                     </a>
                 @else
-                    <p>👥 No employees found.</p>
+                    <p>👥 No accounts found.</p>
+                    @if(Auth::user()->isAdmin())
                     <a href="{{ route('admin.employees.create') }}" class="btn btn-primary">
-                        Add First Employee
+                        Add First Account
                     </a>
+                    @endif
                 @endif
             </div>
         @endif

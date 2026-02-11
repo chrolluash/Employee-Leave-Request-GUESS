@@ -21,9 +21,9 @@ class AdminMiddleware
             return redirect()->route('login');
         }
 
-        // Check if user is admin
-        if (Auth::user()->role !== 'admin') {
-            abort(403, 'Unauthorized action. Admin access only.');
+        // Check if user is admin or manager
+        if (!in_array(Auth::user()->role, ['admin', 'manager'])) {
+            abort(403, 'Unauthorized action. Admin or Manager access only.');
         }
 
         return $next($request);

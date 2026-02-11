@@ -5,6 +5,11 @@
 @section('content')
 <div class="page-header">
     <h1>Dashboard</h1>
+    @if(Auth::user()->isManager())
+        <div style="background-color: #fef3c7; border: 2px solid #f59e0b; padding: 10px 15px; border-radius: 6px; display: inline-block;">
+            <strong>👔 Manager View:</strong> {{ Auth::user()->department }} Department
+        </div>
+    @endif
 </div>
 
 <!-- Statistics Cards -->
@@ -75,7 +80,7 @@
         </div>
         <div class="stat-info">
             <h3>{{ $stats['total_employees'] }}</h3>
-            <p>Employees</p>
+            <p>{{ Auth::user()->isManager() ? 'Team Members' : 'Employees' }}</p>
         </div>
     </div>
 </div>
@@ -85,7 +90,13 @@
     <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
             <div>
-                <h2 style="margin: 0;">All Leave Requests</h2>
+                <h2 style="margin: 0;">
+                    @if(Auth::user()->isManager())
+                        {{ Auth::user()->department }} Department Leave Requests
+                    @else
+                        All Leave Requests
+                    @endif
+                </h2>
                 @if(request()->hasAny(['search', 'status', 'leave_type', 'department', 'sort']))
                     <span style="font-size: 13px; color: var(--text-secondary); margin-top: 5px; display: block;">
                         Filtered Results
@@ -168,6 +179,7 @@
                         </select>
                     </div>
 
+                    @if(Auth::user()->isAdmin())
                     <div class="form-group">
                         <label for="department">Department</label>
                         <select id="department" name="department">
@@ -177,6 +189,7 @@
                             <option value="Engineering" {{ request('department') == 'Engineering' ? 'selected' : '' }}>Engineering</option>
                             <option value="HR" {{ request('department') == 'HR' ? 'selected' : '' }}>HR</option>
                             <option value="IT" {{ request('department') == 'IT' ? 'selected' : '' }}>IT</option>
+                            <option value="Management" {{ request('department') == 'Management' ? 'selected' : '' }}>Management</option>
                             <option value="Merchandising" {{ request('department') == 'Merchandising' ? 'selected' : '' }}>Merchandising</option>
                             <option value="Planning" {{ request('department') == 'Planning' ? 'selected' : '' }}>Planning</option>
                             <option value="Purchasing" {{ request('department') == 'Purchasing' ? 'selected' : '' }}>Purchasing</option>
@@ -185,6 +198,7 @@
                             <option value="Visual" {{ request('department') == 'Visual' ? 'selected' : '' }}>Visual</option>
                         </select>
                     </div>
+                    @endif
 
                     <div class="form-group">
                         <label for="sort">Sort By</label>
@@ -225,7 +239,9 @@
                     <thead>
                         <tr>
                             <th>Employee</th>
+                            @if(Auth::user()->isAdmin())
                             <th>Department</th>
+                            @endif
                             <th>Leave Type</th>
                             <th>Duration</th>
                             <th>Days</th>
@@ -240,7 +256,9 @@
                                     <strong>{{ $request->user->name }}</strong><br>
                                     <small>{{ $request->user->position }}</small>
                                 </td>
+                                @if(Auth::user()->isAdmin())
                                 <td>{{ $request->user->department }}</td>
+                                @endif
                                 <td>
                                     <span class="leave-type-badge {{ $request->leave_type }}">
                                         {{ ucfirst($request->leave_type) }}

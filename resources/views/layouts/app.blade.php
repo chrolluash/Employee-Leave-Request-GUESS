@@ -55,7 +55,7 @@
                     </a>
                 @endif
 
-                @if(Auth::user()->role === 'admin')
+                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'manager')
                     <a href="{{ route('admin.dashboard') }}" 
                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                        title="Dashboard">
@@ -78,6 +78,7 @@
                         </svg>
                         <span class="sidebar-text">Employees</span>
                     </a>
+                    @if(Auth::user()->role === 'admin')
                     <a href="{{ route('admin.employees.create') }}" 
                        class="{{ request()->routeIs('admin.employees.create') || request()->routeIs('admin.employees.edit') ? 'active' : '' }}"
                        title="Add Employee">
@@ -89,6 +90,7 @@
                         </svg>
                         <span class="sidebar-text">Add Employee</span>
                     </a>
+                    @endif
                 @endif
             </nav>
 

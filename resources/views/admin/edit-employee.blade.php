@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="page-header">
-    <h1>Edit Employee: {{ $user->name }}</h1>
+    <h1>Edit Account: {{ $user->name }}</h1>
     <a href="{{ route('admin.employees') }}" class="btn btn-secondary">
         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
             <line x1="19" y1="12" x2="5" y2="12"></line>
@@ -40,34 +40,35 @@
 
             <div class="form-row">
                 <div class="form-group">
-                    <label for="department">Department *</label>
-                    <select id="department" name="department" required>
-                        <option value="">-- Select Department --</option>
-                        <option value="Accounting" {{ old('department', $user->department) == 'Accounting' ? 'selected' : '' }}>Accounting</option>
-                        <option value="Creative" {{ old('department', $user->department) == 'Creative' ? 'selected' : '' }}>Creative</option>
-                        <option value="Engineering" {{ old('department', $user->department) == 'Engineering' ? 'selected' : '' }}>Engineering</option>
-                        <option value="HR" {{ old('department', $user->department) == 'HR' ? 'selected' : '' }}>HR</option>
-                        <option value="IT" {{ old('department', $user->department) == 'IT' ? 'selected' : '' }}>IT</option>
-                        <option value="Merchandising" {{ old('department', $user->department) == 'Merchandising' ? 'selected' : '' }}>Merchandising</option>
-                        <option value="Planning" {{ old('department', $user->department) == 'Planning' ? 'selected' : '' }}>Planning</option>
-                        <option value="Purchasing" {{ old('department', $user->department) == 'Purchasing' ? 'selected' : '' }}>Purchasing</option>
-                        <option value="Research and Deployment" {{ old('department', $user->department) == 'Research and Deployment' ? 'selected' : '' }}>Research and Deployment</option>
-                        <option value="Sales" {{ old('department', $user->department) == 'Sales' ? 'selected' : '' }}>Sales</option>
-                        <option value="Visual" {{ old('department', $user->department) == 'Visual' ? 'selected' : '' }}>Visual</option>
+                    <label for="role">Account Type *</label>
+                    <select id="role" name="role" required>
+                        <option value="">-- Select Account Type --</option>
+                        <option value="employee" {{ old('role', $user->role) == 'employee' ? 'selected' : '' }}>Employee</option>
+                        <option value="manager" {{ old('role', $user->role) == 'manager' ? 'selected' : '' }}>Manager</option>
                     </select>
-                    @error('department')
+                    <small>Managers have the same access as admins</small>
+                    @error('role')
                         <span class="error-message">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="form-group">
-                    <label for="position">Position *</label>
-                    <input type="text" id="position" name="position" 
-                           value="{{ old('position', $user->position) }}" required>
-                    @error('position')
+                    <label for="department">Department *</label>
+                    <input type="text" id="department" name="department" 
+                           value="{{ old('department', $user->department) }}" required>
+                    @error('department')
                         <span class="error-message">{{ $message }}</span>
                     @enderror
                 </div>
+            </div>
+
+            <div class="form-group">
+                <label for="position">Position *</label>
+                <input type="text" id="position" name="position" 
+                       value="{{ old('position', $user->position) }}" required>
+                @error('position')
+                    <span class="error-message">{{ $message }}</span>
+                @enderror
             </div>
 
             <hr>
@@ -95,14 +96,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 5px;">
-                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                        <polyline points="7 3 7 8 15 8"></polyline>
-                    </svg>
-                    Update Employee
-                </button>
+                <button type="submit" class="btn btn-primary">Update Employee</button>
                 <a href="{{ route('admin.employees') }}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
