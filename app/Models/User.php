@@ -56,7 +56,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Get all leave requests reviewed by this user (admin/manager).
+     * Get all leave requests reviewed by this user (admin/manager/hr).
      */
     public function reviewedLeaveRequests()
     {
@@ -84,13 +84,33 @@ class User extends Authenticatable
     }
 
     /**
-     * Check if user has admin access (admin or manager).
+     * Check if user is HR.
+     *
+     * @return bool
+     */
+    public function isHR()
+    {
+        return $this->role === 'hr';
+    }
+
+    /**
+     * Check if user has admin access (admin, manager, or hr).
      *
      * @return bool
      */
     public function hasAdminAccess()
     {
-        return in_array($this->role, ['admin', 'manager']);
+        return in_array($this->role, ['admin', 'manager', 'hr']);
+    }
+
+    /**
+     * Check if user can see all departments (admin and hr).
+     *
+     * @return bool
+     */
+    public function canSeeAllDepartments()
+    {
+        return in_array($this->role, ['admin', 'hr']);
     }
 
     /**

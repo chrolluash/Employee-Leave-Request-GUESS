@@ -55,7 +55,7 @@
                     </a>
                 @endif
 
-                @if(Auth::user()->role === 'admin' || Auth::user()->role === 'manager')
+                @if(Auth::user()->hasAdminAccess())
                     <a href="{{ route('admin.dashboard') }}" 
                        class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
                        title="Dashboard">
@@ -68,7 +68,7 @@
                         <span class="sidebar-text">Dashboard</span>
                     </a>
                     <a href="{{ route('admin.employees') }}" 
-                       class="{{ request()->routeIs('admin.employees') && !request()->routeIs('admin.employees.create') && !request()->routeIs('admin.employees.edit') ? 'active' : '' }}"
+                       class="{{ request()->routeIs('admin.employees*') ? 'active' : '' }}"
                        title="Employees">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -78,7 +78,7 @@
                         </svg>
                         <span class="sidebar-text">Employees</span>
                     </a>
-                    @if(Auth::user()->role === 'admin')
+                    @if(Auth::user()->isAdmin())
                     <a href="{{ route('admin.employees.create') }}" 
                        class="{{ request()->routeIs('admin.employees.create') || request()->routeIs('admin.employees.edit') ? 'active' : '' }}"
                        title="Add Employee">
@@ -89,6 +89,33 @@
                             <line x1="23" y1="11" x2="17" y2="11"></line>
                         </svg>
                         <span class="sidebar-text">Add Employee</span>
+                    </a>
+                    @endif
+                    
+                    @if(Auth::user()->isManager() || Auth::user()->isHR())
+                    <!-- Divider for Manager/HR -->
+                    <div class="menu-divider"></div>
+                    
+                    <a href="{{ route('employee.dashboard') }}" 
+                       class="{{ request()->routeIs('employee.dashboard') || request()->routeIs('employee.leave.show') ? 'active' : '' }}"
+                       title="My Leave Requests">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        <span class="sidebar-text">My Leave Requests</span>
+                    </a>
+                    
+                    <a href="{{ route('employee.leave.create') }}" 
+                       class="{{ request()->routeIs('employee.leave.create') ? 'active' : '' }}"
+                       title="Submit Leave Request">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span class="sidebar-text">Submit Leave Request</span>
                     </a>
                     @endif
                 @endif

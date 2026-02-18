@@ -20,14 +20,24 @@ class DatabaseSeeder extends Seeder
             'position' => 'System Administrator',
         ]);
 
+        // Create HR user
+        User::create([
+            'name' => 'HR Manager',
+            'email' => 'hr@guess.com',
+            'password' => Hash::make('password123'),
+            'role' => 'hr',
+            'department' => 'HR',
+            'position' => 'HR Manager',
+        ]);
+
         // Create manager user
         User::create([
             'name' => 'Manager User',
             'email' => 'manager@guess.com',
             'password' => Hash::make('password123'),
             'role' => 'manager',
-            'department' => 'Management',
-            'position' => 'Department Manager',
+            'department' => 'IT',
+            'position' => 'IT Manager',
         ]);
 
         // Create sample employee
@@ -46,8 +56,8 @@ class DatabaseSeeder extends Seeder
             'email' => 'janesmith@guess.com',
             'password' => Hash::make('password123'),
             'role' => 'employee',
-            'department' => 'HR',
-            'position' => 'HR Manager',
+            'department' => 'Sales',
+            'position' => 'Sales Representative',
         ]);
     }
 }

@@ -36,6 +36,11 @@ class AuthController extends Controller
                 // Managers default to admin dashboard (they can access employee dashboard too)
                 return redirect()->intended(route('admin.dashboard'));
             }
+            
+            if ($user->role === 'hr') {
+                // HR default to admin dashboard (they can access employee dashboard too)
+                return redirect()->intended(route('admin.dashboard'));
+            }
 
             // Regular employees
             return redirect()->intended(route('employee.dashboard'));

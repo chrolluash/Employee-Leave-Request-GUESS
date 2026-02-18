@@ -1567,3 +1567,63 @@ body {
     flex-shrink: 0;
     stroke: var(--text-secondary);
 }
+
+/* ============================================
+   MANAGER MENU DIVIDER - ADD THIS TO YOUR CSS
+   ============================================ */
+
+/* Divider between admin and personal sections */
+.sidebar-nav .menu-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 15px 10px;
+    border: none;
+}
+
+/* Prevent divider from being clickable */
+.sidebar-nav > div {
+    pointer-events: none;
+}
+
+/* Section Labels for Manager Menu */
+.sidebar-nav .section-label {
+    padding: 8px 15px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 10px;
+}
+
+/* Fix: Only ONE active link at a time */
+.sidebar-nav a.active {
+    background-color: rgba(140, 16, 7, 0.3);
+    color: #ffffff;
+    border-left-color: var(--cream);
+    font-weight: 600;
+}
+
+/* Collapsed sidebar - hide divider */
+.sidebar.collapsed .menu-divider {
+    margin: 10px 5px;
+}
+
+.sidebar.collapsed .section-label {
+    display: none;
+}
+
+
+/* ============================================
+   HR ROLE BADGE - ADD TO YOUR CSS
+   ============================================ */
+
+.role-badge.hr {
+    background-color: #059669; /* Green for HR */
+    color: white;
+}
+
+/* Update sidebar for HR */
+.sidebar-nav a[title="HR"] svg {
+    stroke: #10b981;
+}
